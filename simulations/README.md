@@ -126,14 +126,14 @@ site.alt_m = 1350;         % Altitude (meters)
 
 % Simulation timing
 Ts = 1;                    % Sample time (seconds)
-simDays = 3;               % Simulation duration (days)
+simDays = 1;               % Simulation duration (days)
 StopTime = simDays*86400;  % Total simulation time (seconds)
 
 % Environmental conditions
-T_mean = 16;               % Mean temperature (°C)
-T_amp = 7;                 % Temperature amplitude (°C)
-RH_mean = 65;              % Mean relative humidity (%)
-RH_amp = 20;               % Humidity amplitude (%)
+T_mean = 15;               % Mean temperature (°C)
+T_amp = 11;                 % Temperature amplitude (°C)
+RH_mean = 50;              % Mean relative humidity (%)
+RH_amp = 15;               % Humidity amplitude (%)
 
 % Sensor characteristics
 tau_s = 2;                 % Sensor time constant (seconds)
@@ -142,20 +142,20 @@ a = exp(-Ts/tau_s);       % First-order lag coefficient
 % Noise specifications
 noise.T = 0.1;             % Temperature noise (1-sigma, °C)
 noise.RH = 0.5;            % Humidity noise (1-sigma, %RH)
-noise.VWC = 0.7;           % VWC noise (1-sigma, %VWC)
+noise.VWC = 0.2;           % VWC noise (1-sigma, %VWC)
 
 % Soil moisture model
-VWC_init = 28;             % Initial volumetric water content (%)
-VWC_min = 8;               % Minimum VWC (dry soil)
-VWC_max = 45;              % Maximum VWC (saturated)
-evap_per_hour = 0.2;       % Hourly evaporation rate (%VWC/hour)
+VWC_init = 60;             % Initial volumetric water content (%)
+VWC_min = 15;               % Minimum VWC (dry soil)
+VWC_max = 70;              % Maximum VWC (saturated)
+evap_per_hour = 0.15;       % Hourly evaporation rate (%VWC/hour)
 rain_pulse = 6;            % Water added per irrigation (%)
 rain_every_hours = 36;     % Irrigation interval (hours)
 evap_rate = evap_per_hour/3600;  % Evaporation rate (%VWC/second)
 ```
 
 **Usage**:
-```matlab
+```matlab (in command window)
 % Run at start of Simulink session
 init_nauni;  % Loads all parameters into MATLAB workspace
 ```
@@ -231,7 +231,7 @@ The main Simulink model integrates all simulation components into a unified envi
    addpath(genpath('code/'));  % Add code folder
    ```
 
-3. **Initialize parameters**: (in command window)
+3. **Initialize parameters**:                        (in command window)
    ```matlab
    init_nauni;
    ```
