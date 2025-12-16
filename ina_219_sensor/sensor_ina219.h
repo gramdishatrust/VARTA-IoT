@@ -1,8 +1,7 @@
 #ifndef SENSOR_INA219_H
 #define SENSOR_INA219_H
 
-// Forward declarations - breaks circular dependency
-// main.cpp must include Frugal-IoT.h before this file
+// Forward declarations - breaks circular dependency main.cpp must include Frugal-IoT.h before this file
 class Sensor;
 class OUTfloat;
 
