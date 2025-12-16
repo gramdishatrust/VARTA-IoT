@@ -43,12 +43,12 @@ void setup() {
   // LightWiFi=Light + WiFi on (not working); 
   // Modem=Modem sleep - works but negligable power saving
   // Deep - works but slow recovery and slow response to UX so do not use except for multi minute cycles.
-  // frugal_iot.configure_power(Power_Loop, 30000, 30000); // Take a reading every 30 seconds - awake all the time
-  frugal_iot.configure_power(Power_Deep, SYSTEM_POWER_CYCLE, SYSTEM_POWER_WAKE); // Wake for 30 seconds, sleep for 15 minutes cycle
+   frugal_iot.configure_power(Power_Loop, 30000, 30000); // Take a reading every 30 seconds - awake all the time
+  //frugal_iot.configure_power(Power_Deep, SYSTEM_POWER_CYCLE, SYSTEM_POWER_WAKE); // Wake for 30 seconds, sleep for 15 minutes cycle
   // system_oled and actuator_ledbuiltin added automatically on boards that have them.
 
   // Add local wifis here, or see instructions in the wiki for adding via the /data
-  frugal_iot.wifi->addWiFi(F("Thakur"),F("thakur123"));
+  //frugal_iot.wifi->addWiFi(F("Thakur"),F("thakur123"));
   
   // Add sensors, actuators and controls (using validated SHT to filter invalid readings)
   frugal_iot.sensors->add(new Sensor_SHT_Validated("SHT", SENSOR_SHT_ADDRESS, &I2C_WIRE, true));
@@ -63,7 +63,7 @@ void setup() {
   // DS18B20 sensor for soil temperature (using validated subclass to filter bad 85°C values)
   frugal_iot.sensors->add(new Sensor_DS18B20_Validated("ds18b20", "Soil Temperature", 5, 0, true));
 
-  frugal_iot.sensors->add(new Sensor_Battery(32));
+  frugal_iot.sensors->add(new Sensor_Battery(32,2.0));
 
   // INA219 battery monitor - maxV=4.2V, minV=3.0V for LiPo
   // frugal_iot.sensors->add(new Sensor_INA219("battery", "Battery Monitor", 4.2, 3.0, true));
