@@ -1,4 +1,4 @@
-# Updated Frugal IoT - for GDT
+# Project: VARTA — Vital Agricultural Real-Time Analytics 
 
 A comprehensive soil monitoring solution built with the Frugal-IoT framework for ESP32/ESP8266 microcontrollers. This project monitors soil moisture, ambient temperature/humidity, and soil temperature with wireless connectivity and control capabilities.
 
@@ -7,8 +7,8 @@ A comprehensive soil monitoring solution built with the Frugal-IoT framework for
 - **Soil Moisture Monitoring**: Analog sensor with configurable range (0-100%)
 - **Environmental Sensing**: SHT30 or SHT40 temperature and humidity sensor via I2C
 - **Soil Temperature**: DS18B20 waterproof temperature sensor
+- **Battery Monitoring**: Voltage divider circuit for battery voltage measurement
 - **Wireless Connectivity**: WiFi with MQTT publishing
-- **Control System**: Hysteresis-based control with LED feedback
 - **Multi-Board Support**: Compatible with various ESP32/ESP8266 development boards
 - **Power Management**: Configurable sleep modes for battery operation
 - **LoRa Mesh**: Optional LoRaMesher support on compatible boards
@@ -17,9 +17,13 @@ A comprehensive soil monitoring solution built with the Frugal-IoT framework for
 
 ### Core Components
 - ESP32 or ESP8266 development board
-- Soil moisture sensor (analog)
+- Capacitive Soil moisture sensor
 - SHT30 or SHT40 temperature/humidity sensor
 - DS18B20 waterproof temperature sensor
+- Voltage divider circuit (2x 100kΩ resistors for 1:2 ratio battery monitoring)
+
+### Voltage Divider Circuit
+The battery voltage is measured using a simple voltage divider with two 100kΩ resistors in series. This creates a 1:2 voltage ratio, meaning 4.0V at the battery terminal is seen as 2.0V at the ESP ADC pin, keeping it within the safe 0-3.3V range.
 
 ### Supported Boards
 
@@ -40,35 +44,71 @@ These pins are specific to the Node MCU board
 |-----------|-----|
 | Soil Moisture | GPIO 32 |
 | DS18B20 | GPIO 5 | 
-| SHT30 |I2C (SDA → GPIO 21,SCL → GPIO 22)| 
+| SHT40 | I2C (SDA → GPIO 21, SCL → GPIO 22) |
+| Battery Voltage (Voltage Divider) | GPIO 35 (via 2x 100kΩ divider) |
 
-## Installation
+## Build & Installation Guide
 
-### Prerequisites
-- [PlatformIO](https://platformio.org/) installed
+This guide details how to set up a fresh development environment and build the VARTA firmware.
 
-### Setup
-1. Clone this repository
-2. Open in PlatformIO IDE or VS Code with PlatformIO extension
-3. Select your target board environment
-4. Build and upload
+### 1. Prerequisites
+To build this project, you need **Visual Studio Code** with the **PlatformIO IDE** extension.
 
-### Library Dependencies
-The following libraries are automatically managed by PlatformIO:
-- Frugal-IoT (main framework)
-- DallasTemperature (DS18B20 sensor)
-- OneWire (DS18B20 communication)
-- SHT85 (included in Frugal-IoT)
+1.  **Install VS Code**: Download and install from [code.visualstudio.com](https://code.visualstudio.com/).
+2.  **Install PlatformIO**:
+    * Open VS Code.
+    * Go to the Extensions view (click the square icon on the left sidebar or press `Ctrl+Shift+X`).
+    * Search for "PlatformIO IDE".
+    * Click **Install**.
+    * *Note: Wait for the installation to complete. It may prompt you to restart VS Code.*
 
-## Configuration
+### 2. Setup the Repository
+1.  **Clone the Repo** (for this git must be installed on you machine):
+    ```bash
+    git clone [https://github.com/tarun455/iot-gdt.git](https://github.com/tarun455/iot-gdt.git)
+    ```
+2.  **Open in VS Code**:
+    * Open VS Code.
+    * Click **File > Open Folder...**
+    * Select the `iot-gdt` folder you just cloned.
+3.  **Initialization**:
+    * PlatformIO will automatically detect the `platformio.ini` file and begin downloading the necessary toolchains and libraries (Frugal-IoT, DallasTemperature, etc.).
+    * Wait for the "configuring project" tasks to finish in the bottom status bar.
 
-### WiFi Setup
-Add your WiFi credentials in `main.cpp`:
-```cpp
-frugal_iot.wifi->addWiFi(F("your_ssid"), F("your_password"));
+### 3. Build Configuration
+The project supports multiple hardware boards defined in `platformio.ini`. You must select the environment that matches your hardware.
+
+**Primary Supported Board:**
+* `nodemcu-32s` (Default for VARTA deployments)
+
+**Other Environments:**
+* `c3_pico`, `s2_mini`, `d1_mini`, `ttgo`, `t3s3`
+
+### 4. How to Build & Upload
+
+#### Option A: Using the VS Code Interface (Recommended)
+1.  Click the **PlatformIO Alien Icon** on the left sidebar.
+2.  In the **Project Tasks** menu, expand the folder for your board (e.g., `nodemcu-32s`).
+3.  **Build**: Click **General > Build**. 
+    * *PlatformIO will compile the firmware and create the binary in `.pio/build/nodemcu-32s/firmware.bin`.*
+4.  **Upload**: Connect your board via USB and click **General > Upload**.
+5.  **Monitor**: Click **General > Monitor** to see serial output (ensure baud rate is 460800).
+
+#### Option B: Using the CLI Terminal
+Open a terminal in VS Code (`Terminal > New Terminal`) and run:
+
+```bash
+# Build for the default NodeMCU-32s
+pio run -e nodemcu-32s
+
+# Build and Upload
+pio run -e nodemcu-32s -t upload
+
+# Build for other boards (e.g., ESP8266 D1 Mini)
+pio run -e d1_mini
 ```
 
-Alternatively you can leave this line commented out, and once the board is flashed look for a WiFi network called something like esp32-1234, connect to this network. A captive portal should appear where you can select the WiFi and Password.   It is possible to enter multiple WiFi's through either the captive Portal or as lines in main.cpp
+Once the board is flashed look for a WiFi network called something like esp32-1234, connect to this network. A captive portal should appear where you can select the WiFi and Password. It is possible to enter multiple WiFi's through either the captive Portal or as lines in main.cpp
 
 ### MQTT Configuration
 The system connects to the default Frugal-IoT MQTT broker:
@@ -82,15 +122,14 @@ Adjust soil moisture sensor calibration in `main.cpp`:
 // Parameters: id, name, pin, dry_value, scale_factor, color, retain
 frugal_iot.sensors->add(new Sensor_Soil("soil", "Soil", 3, 4095, -100.0/4095, "brown", true));
 ```
-This can also be calibrated in the captive portal. Place the soil moisture sensor in completely dry soil and set it as 0%, then adjust pout in water till the soil can absorb no more and set it to 100%. 
-
+This can also be calibrated in the captive portal. Place the soil moisture sensor in completely dry soil and set it as 0%, then adjust pout in water till the soil can absorb no more and set it to 100%.  
 It is important to do it set the 0% value first, and it has to be 0% (as this is treated differently for calibration). 
 
 ### Power Management
 Configure reading intervals and power modes:
 ```cpp
 // Parameters: mode, cycle_ms, wake_ms
-frugal_iot.configure_power(Power_Loop, 30000, 30000); // 30-second intervals, always awake
+frugal_iot.configure_power(Power_Deep, 3600000, 20000); // 1 hour intervals
 ```
 
 ## Build Environments
@@ -124,6 +163,7 @@ The system publishes sensor data via MQTT with the following topics structure:
 - Ambient temperature (°C)
 - Ambient humidity (%)
 - Soil temperature (°C)
+- Battery voltage (V)
 
 ## Control Features
 
@@ -141,12 +181,6 @@ Enable debugging by uncommenting flags in `platformio.ini`:
 -D SENSOR_SOIL_DEBUG
 ```
 
-### Custom Sensors
-The project includes a custom DS18B20 sensor implementation in:
-- `src/sensor_ds18b20.h`
-- `src/sensor_ds18b20.cpp`
-
-This is likely to be removed at some point in the future when that sensor is supported by Frugal-IoT
 
 ## Troubleshooting
 
@@ -158,6 +192,10 @@ This is likely to be removed at some point in the future when that sensor is sup
 
 ### Serial Monitor
 Monitor output at 460800 baud for debugging information.
+
+## Acknowledgement
+This project is developed under a Grant from the [Gram Disha Trust (GDT)](https://gramdisha.org).  
+Reference material, background discussions, and implementation notes are available on the [BLOG](https://gramdisha.org/iot-agritech-smallholders/).
 
 ## License
 
