@@ -1,3 +1,7 @@
+// Adafruit INA219 Guide: https://learn.adafruit.com/adafruit-ina219-current-sensor-breakout
+// INA219 Datasheet: https://cdn-shop.adafruit.com/datasheets/ina219.pdf
+// INA219 Library: https://github.com/adafruit/Adafruit_INA219
+
 #include "Frugal-IoT.h"
 #include "sensor_ina219.h"
 

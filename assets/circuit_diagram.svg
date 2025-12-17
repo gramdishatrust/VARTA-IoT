@@ -1,4 +1,4 @@
-<svg viewBox="0 0 1550 850" xmlns="http://www.w3.org/2000/svg" style="background-color: #1e1e1e; font-family: 'Segoe UI', sans-serif;">
+<svg viewBox="0 0 1750 850" xmlns="http://www.w3.org/2000/svg" style="background-color: #1e1e1e; font-family: 'Segoe UI', sans-serif;">
 
   <!-- Definitions -->
   <defs>
@@ -30,8 +30,8 @@
   <!-- Solar Panel -->
   <g transform="translate(50, 100)">
     <rect width="160" height="100" class="module-body" />
-    <text x="70" y="40" text-anchor="middle" class="module-text">Solar Panel</text>
-    <text x="70" y="65" text-anchor="middle" class="sub-text">6V / 5W</text>
+    <text x="80" y="40" text-anchor="middle" class="module-text">Solar Panel</text>
+    <text x="80" y="65" text-anchor="middle" class="sub-text">6V / 5W</text>
     
     <circle cx="160" cy="30" r="5" fill="#ff4444"/> <text x="140" y="30" class="pin-text" text-anchor="end">+</text>
     <circle cx="160" cy="70" r="5" fill="#666"/> <text x="140" y="70" class="pin-text" text-anchor="end">-</text>
@@ -40,7 +40,6 @@
   <!-- CN3065 -->
   <g transform="translate(300, 100)">
     <rect width="180" height="140" class="module-body" />
-    
     <text x="90" y="85" text-anchor="middle" class="module-text">CN3065</text>
     <text x="90" y="105" text-anchor="middle" class="sub-text">Power Mgmt</text>
     
@@ -63,10 +62,25 @@
     <circle cx="120" cy="0" r="5" fill="#666"/>
   </g>
 
-  <!-- Boost Converter -->
-  <g transform="translate(580, 100)">
-    <rect width="180" height="120" class="module-body" />
+  <!-- Voltage Divider Module -->
+  <g transform="translate(550, 220)">
+    <rect width="160" height="100" class="module-body" />
     
+    <text x="80" y="45" text-anchor="middle" class="module-text">Voltage Divider</text>
+    <text x="80" y="65" text-anchor="middle" class="sub-text">2x 100kΩ</text>
+    <text x="80" y="80" text-anchor="middle" class="sub-text" font-size="12" fill="#666">Ratio: 1/2</text>
+    
+    <!-- Input Pin -->
+    <circle cx="80" cy="0" r="5" fill="#ff4444"/> <text x="90" y="15" class="pin-text">IN</text>
+    <!-- Output Pin -->
+    <circle cx="160" cy="50" r="4" fill="#4fc3f7"/>
+    <!-- GND Pin -->
+    <circle cx="80" cy="100" r="4" fill="#666"/>
+  </g>
+
+  <!-- Boost Converter -->
+  <g transform="translate(800, 100)">
+    <rect width="180" height="120" class="module-body" />
     <text x="90" y="95" text-anchor="middle" class="module-text">Boost Conv.</text>
     <text x="90" y="113" text-anchor="middle" class="sub-text">Output: 5V</text>
     
@@ -80,27 +94,35 @@
   <!-- ================= 2. PROCESSING (CENTER) ================= -->
 
   <!-- ESP32 -->
-  <g transform="translate(850, 50)">
-    <rect width="220" height="320" class="module-body" fill="#333"/>
+  <g transform="translate(1070, 50)">
+    <rect width="220" height="340" class="module-body" fill="#333"/>
     <text x="110" y="40" text-anchor="middle" class="module-text" fill="#fff">ESP32</text>
     <text x="110" y="65" text-anchor="middle" class="sub-text">NodeMCU-32S</text>
     
+    <!-- Left Pins -->
     <circle cx="0" cy="80" r="5" fill="#ff4444"/> <text x="20" y="80" class="pin-text">VIN (5V)</text>
     <circle cx="0" cy="120" r="5" fill="#666"/> <text x="20" y="120" class="pin-text">GND</text>
+    <circle cx="0" cy="270" r="5" fill="#4fc3f7"/> <text x="20" y="270" class="pin-text">G32 (Bat)</text>
 
+    <!-- Right Pins -->
     <circle cx="220" cy="80" r="5" fill="#ff9800"/> <text x="200" y="80" class="pin-text" text-anchor="end">3V3 Out</text>
     <circle cx="220" cy="120" r="5" fill="#666"/> <text x="200" y="120" class="pin-text" text-anchor="end">GND</text>
     
     <circle cx="220" cy="180" r="5" fill="#4fc3f7"/> <text x="200" y="180" class="pin-text" text-anchor="end">G21 (SDA)</text>
     <circle cx="220" cy="210" r="5" fill="#4fc3f7"/> <text x="200" y="210" class="pin-text" text-anchor="end">G22 (SCL)</text>
-    <circle cx="220" cy="240" r="5" fill="#4fc3f7"/> <text x="200" y="240" class="pin-text" text-anchor="end">G32 (ADC)</text>
-    <circle cx="220" cy="270" r="5" fill="#4fc3f7"/> <text x="200" y="270" class="pin-text" text-anchor="end">G5 (OneWire)</text>
+    
+    <!-- CORRECTED PIN ASSIGNMENT & POSITIONS -->
+    <!-- Top Pin (y=270) -> G34 (Soil) -->
+    <circle cx="220" cy="270" r="5" fill="#4fc3f7"/> <text x="200" y="270" class="pin-text" text-anchor="end">G34 (Soil)</text>
+    
+    <!-- Bottom Pin (y=300) -> G5 (DS18) -->
+    <circle cx="220" cy="300" r="5" fill="#4fc3f7"/> <text x="200" y="300" class="pin-text" text-anchor="end">G5 (DS18)</text>
   </g>
 
   <!-- ================= 3. SENSORS (FAR RIGHT) ================= -->
 
   <!-- SHT40 -->
-  <g transform="translate(1300, 60)">
+  <g transform="translate(1520, 60)">
     <rect width="190" height="100" class="module-body" />
     <text x="105" y="35" text-anchor="middle" class="module-text">SHT40</text>
     <text x="105" y="55" text-anchor="middle" class="sub-text">Air Temp/Hum</text>
@@ -112,7 +134,7 @@
   </g>
 
   <!-- Soil Moisture -->
-  <g transform="translate(1300, 220)">
+  <g transform="translate(1520, 220)">
     <rect width="190" height="90" class="module-body" />
     <text x="105" y="35" text-anchor="middle" class="module-text">Capacitive</text>
     <text x="105" y="55" text-anchor="middle" class="sub-text">Soil Moisture</text>
@@ -123,7 +145,7 @@
   </g>
 
   <!-- DS18B20 -->
-  <g transform="translate(1300, 360)">
+  <g transform="translate(1520, 360)">
     <rect width="190" height="90" class="module-body" />
     <text x="105" y="35" text-anchor="middle" class="module-text">DS18B20</text>
     <text x="105" y="55" text-anchor="middle" class="sub-text">Soil Temp</text>
@@ -135,59 +157,76 @@
 
   <!-- ================= 4. WIRING & BUSES ================= -->
 
-  <!-- Solar to BQ -->
+  <!-- Solar to CN3065 -->
   <path d="M 210 130 L 300 130" class="wire-5v" marker-mid="url(#dot)"/>
   <path d="M 210 170 L 300 170" class="wire-gnd" />
 
-  <!-- BQ to Battery -->
+  <!-- CN3065 to Battery -->
   <path d="M 360 240 L 360 350" class="wire-5v" />
   <path d="M 420 240 L 420 350" class="wire-gnd" />
 
-  <!-- BQ to Boost -->
-  <path d="M 480 130 L 580 130" class="wire-5v" />
-  <text x="530" y="120" class="pin-text" fill="#ff4444" text-anchor="middle" font-size="14" font-weight="bold">3.5-4.2V</text>
-  <path d="M 480 170 L 580 170" class="wire-gnd" />
+  <!-- CN3065 to Boost -->
+  <path d="M 480 130 L 800 130" class="wire-5v" />
+  <text x="755" y="120" class="pin-text" fill="#ff4444" text-anchor="middle" font-size="14" font-weight="bold">3.5-4.2V</text>
+  
+  <!-- Ground: CN3065 to Boost -->
+  <path d="M 480 170 L 800 170" class="wire-gnd" />
 
+  <!-- Voltage Divider Wiring -->
+  <path d="M 630 130 L 630 220" class="wire-5v" />
+  <circle cx="630" cy="130" r="3" fill="#ff4444" />
+  
+  <!-- Divider OUT to ESP32 G32 (Clean Path) -->
+  <path d="M 710 270 L 750 270 L 750 320 L 1070 320" class="wire-sig" fill="none" />
+  
+  <!-- Divider GND -->
+  <path d="M 630 320 L 630 430 L 1440 430" class="wire-gnd" fill="none" />
+  
   <!-- Boost to ESP32 -->
-  <path d="M 760 130 L 850 130" class="wire-5v" /> 
-  <text x="790" y="120" fill="#ff4444" font-size="14" font-weight="bold">5V IN</text>
-  <path d="M 760 170 L 850 170" class="wire-gnd" />
+  <path d="M 980 130 L 1070 130" class="wire-5v" /> 
+  <text x="1010" y="120" fill="#ff4444" font-size="14" font-weight="bold">5V IN</text>
+  <path d="M 980 170 L 1070 170" class="wire-gnd" />
 
 
-  <!-- === IMPROVED BUS SYSTEM === -->
+  <!-- === SHIFTED BUS SYSTEM === -->
 
-  <!-- 3.3V RAIL (Orange) -->
-  <path d="M 1160 90 L 1160 390" class="wire-3v3" />
-  <path d="M 1070 130 L 1160 130" class="wire-3v3" />
-  <text x="1165" y="80" fill="#ff9800" font-size="14" font-weight="bold">3.3V</text>
-
-  <!-- Taps to Sensors -->
-  <path d="M 1160 90 L 1302 90" class="wire-3v3" /> 
-  <path d="M 1160 250 L 1302 250" class="wire-3v3" />
-  <path d="M 1160 390 L 1302 390" class="wire-3v3" />
-
-
-  <!-- GROUND RAIL (Grey) -->
-  <path d="M 1220 140 L 1220 430" class="wire-gnd" />
-  <path d="M 1070 170 L 1220 170" class="wire-gnd" />
-  <text x="1225" y="445" fill="#666" font-size="14" font-weight="bold">GND</text>
+  <!-- 3.3V RAIL -->
+  <path d="M 1380 90 L 1380 390" class="wire-3v3" />
+  <path d="M 1290 130 L 1380 130" class="wire-3v3" />
+  <text x="1385" y="80" fill="#ff9800" font-size="14" font-weight="bold">3.3V</text>
 
   <!-- Taps to Sensors -->
-  <path d="M 1220 140 L 1302 140" class="wire-gnd" />
-  <path d="M 1220 290 L 1302 290" class="wire-gnd" />
-  <path d="M 1220 430 L 1302 430" class="wire-gnd" />
+  <path d="M 1380 90 L 1522 90" class="wire-3v3" /> 
+  <path d="M 1380 250 L 1522 250" class="wire-3v3" />
+  <path d="M 1380 390 L 1522 390" class="wire-3v3" />
 
 
-  <!-- === CLEANED SIGNAL WIRES (Blue) === -->
-  <!-- SHT40 I2C -->
-  <path d="M 1070 230 L 1100 230 L 1100 110 L 1302 110" class="wire-sig" stroke-dasharray="5,5"/>
-  <path d="M 1070 260 L 1115 260 L 1115 125 L 1302 125" class="wire-sig" stroke-dasharray="5,5"/>
+  <!-- GROUND RAIL -->
+  <path d="M 1440 140 L 1440 430" class="wire-gnd" />
+  <path d="M 1290 170 L 1440 170" class="wire-gnd" />
+  <text x="1445" y="445" fill="#666" font-size="14" font-weight="bold">GND</text>
 
-  <!-- Moisture Analog -->
-  <path d="M 1070 290 L 1130 290 L 1130 270 L 1302 270" class="wire-sig" />
+  <!-- Taps to Sensors -->
+  <path d="M 1440 140 L 1522 140" class="wire-gnd" />
+  <path d="M 1440 290 L 1522 290" class="wire-gnd" />
+  <path d="M 1440 430 L 1522 430" class="wire-gnd" />
 
-  <!-- DS18B20 Data -->
-  <path d="M 1070 320 L 1145 320 L 1145 410 L 1302 410" class="wire-sig" />
+
+  <!-- === CLEANED SIGNAL WIRES (NO CROSSING) === -->
+  
+  <!-- SHT40 -->
+  <path d="M 1290 230 L 1320 230 L 1320 110 L 1522 110" class="wire-sig" stroke-dasharray="5,5"/>
+  <path d="M 1290 260 L 1335 260 L 1335 125 L 1522 125" class="wire-sig" stroke-dasharray="5,5"/>
+
+  <!-- Moisture (From G34 @ 320 -> Soil @ 270) -->
+  <!-- Start: 1290, 320 (G34 pin level). End: 1522, 270 (Soil pin level) -->
+  <!-- Wire goes UP -->
+  <path d="M 1290 320 L 1350 320 L 1350 270 L 1522 270" class="wire-sig" />
+
+  <!-- DS18B20 (From G5 @ 350 -> DS18 @ 410) -->
+  <!-- Start: 1290, 350 (G5 pin level). End: 1522, 410 (DS18 pin level) -->
+  <!-- Wire goes DOWN -->
+  <path d="M 1290 350 L 1365 350 L 1365 410 L 1522 410" class="wire-sig" />
 
 
   <!-- Legend -->

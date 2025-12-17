@@ -42,10 +42,10 @@ These pins are specific to the Node MCU board
 
 | Component | Pin |
 |-----------|-----|
-| Soil Moisture | GPIO 32 |
+| Soil Moisture | GPIO 34 |
 | DS18B20 | GPIO 5 | 
 | SHT40 | I2C (SDA → GPIO 21, SCL → GPIO 22) |
-| Battery Voltage (Voltage Divider) | GPIO 35 (via 2x 100kΩ divider) |
+| Battery Voltage (Voltage Divider) | GPIO 32 (via 2x 100kΩ divider) |
 
 ## Build & Installation Guide
 
@@ -120,7 +120,7 @@ The system connects to the default Frugal-IoT MQTT broker:
 Adjust soil moisture sensor calibration in `main.cpp`:
 ```cpp
 // Parameters: id, name, pin, dry_value, scale_factor, color, retain
-frugal_iot.sensors->add(new Sensor_Soil("soil", "Soil", 3, 4095, -100.0/4095, "brown", true));
+frugal_iot.sensors->add(new Sensor_Soil("soil", "Soil", 34, 4095, -100.0/4095, "brown", true));
 ```
 This can also be calibrated in the captive portal. Place the soil moisture sensor in completely dry soil and set it as 0%, then adjust pout in water till the soil can absorb no more and set it to 100%.  
 It is important to do it set the 0% value first, and it has to be 0% (as this is treated differently for calibration). 
