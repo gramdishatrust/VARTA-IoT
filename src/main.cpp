@@ -4,12 +4,12 @@
  * Optional: SENSOR_SHT_ADDRESS - defaults to 0x44, (note the D1 shields default to 0x45)
  */
 
-// #ifndef SYSTEM_POWER_CYCLE
-//   #define SYSTEM_POWER_CYCLE 900000 // 15 minutes total cycle (in ms)
-// #endif
-// #ifndef SYSTEM_POWER_WAKE
-//   #define SYSTEM_POWER_WAKE 30000 // Wake for 30 seconds and take readings
-// #endif
+#ifndef SYSTEM_POWER_CYCLE
+  #define SYSTEM_POWER_CYCLE 900000 // 15 minutes total cycle (in ms)
+#endif
+#ifndef SYSTEM_POWER_WAKE
+  #define SYSTEM_POWER_WAKE 30000 // Wake for 30 seconds and take readings
+#endif
 
 
 // defines SENSOR_SHT_ADDRESS if dont define here or in platformio.ini
@@ -32,8 +32,8 @@ void setup() {
   // LightWiFi=Light + WiFi on (not working); 
   // Modem=Modem sleep - works but negligable power saving
   // Deep - works but slow recovery and slow response to UX so do not use except for multi minute cycles.
-  frugal_iot.configure_power(Power_Loop, 30000, 30000); // Take a reading every 30 seconds - awake all the time
-  // frugal_iot.configure_power(Power_Deep, SYSTEM_POWER_CYCLE, SYSTEM_POWER_WAKE); // Wake for 30 seconds, sleep for 15 minutes cycle
+  // frugal_iot.configure_power(Power_Loop, 30000, 30000); // Take a reading every 30 seconds - awake all the time
+  frugal_iot.configure_power(Power_Deep, SYSTEM_POWER_CYCLE, SYSTEM_POWER_WAKE); // Wake for 30 seconds, sleep for 15 minutes cycle
   // system_oled and actuator_ledbuiltin added automatically on boards that have them.
 
   // Add local wifis here, or see instructions in the wiki for adding via the /data
@@ -52,7 +52,7 @@ void setup() {
   // DS18B20 sensor for soil temperature (using validated subclass to filter bad 85°C values)
   frugal_iot.sensors->add(new Sensor_DS18B20("ds18b20", "Soil Temperature", 5, 0, true));
 
-  frugal_iot.sensors->add(new Sensor_Battery(32,2.0));
+  frugal_iot.sensors->add(new Sensor_Battery(32, 2.25));
 
   // INA219 battery monitor - maxV=4.2V, minV=3.0V for LiPo
   // frugal_iot.sensors->add(new Sensor_INA219("battery", "Battery Monitor", 4.2, 3.0, true));
