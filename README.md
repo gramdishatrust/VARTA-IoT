@@ -13,6 +13,9 @@ A comprehensive soil monitoring solution built with the Frugal-IoT framework for
 - **Power Management**: Configurable sleep modes for battery operation
 - **LoRa Mesh**: Optional LoRaMesher support on compatible boards
 
+## Systems Overview
+**[See VARTA-IoT Wiki](https://github.com/gramdishatrust/VARTA-IoT/wiki/System-Overview)**
+
 ## Hardware Requirements
 
 ### Core Components
